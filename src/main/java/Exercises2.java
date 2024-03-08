@@ -1,7 +1,5 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Exercises2 {
 
@@ -14,8 +12,16 @@ public class Exercises2 {
     */
 
     public int[] twoSum(int[] nums, int target) {
-        // TODO
-        return null;
+        int[] indices = new int [2];
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] + nums[j] == target) {
+                    indices[0] = i;
+                    indices[1] = j;
+                }
+            }
+        }
+        return indices;
     }
 
     /*
@@ -49,18 +55,55 @@ public class Exercises2 {
     */
 
     public int romanToInt(String s) {
-        // TODO
-        return 0;
+        int romanNums = 0, integer = 0;
+        if (s.isEmpty()) {
+            return 0;
+        } else {
+            for (int i = s.length() - 1; i >= 0; i--) {
+                switch (s.charAt(i)) {
+                    case 'I' -> romanNums = 1;
+                    case 'V' -> romanNums = 5;
+                    case 'X' -> romanNums = 10;
+                    case 'L' -> romanNums = 50;
+                    case 'C' -> romanNums = 100;
+                    case 'D' -> romanNums = 500;
+                    case 'M' -> romanNums = 1000;
+                }
+                if (4 * romanNums < integer)
+                    integer += romanNums;
+                else
+                    integer -= romanNums;
+            }
+            return integer;
+        }
     }
 
     /*
     Given an array nums of distinct integers, return all the possible permutations.
     You can return the answer in any order.
     */
-
-    public List<List<Integer>> permute(int[] nums) {
-        // TODO
-        return null;
+    public List<List<Integer>> permute(int[] num) {
+        List<List<Integer>> ans = new ArrayList<>();
+        permutation(0,num,ans);
+        return ans;
+    }
+    public static void permutation(int index,int[] num,List<List<Integer>> ans) {
+        if (index == num.length) {
+            List<Integer> array = new ArrayList<>();
+            for (int n : num) array.add(n);
+            ans.add(array);
+            return;
+        }
+        for (int i = index; i < num.length; i++) {
+            swap( i, index ,num);
+            permutation(index + 1, num, ans);
+            swap(index , i ,num);
+        }
+    }
+    public static void swap(int i, int index , int[] num) {
+        int temp = num[i];
+        num[i] = num[index];
+        num[index] = temp;
     }
 
     public static void main(String[] args) {
